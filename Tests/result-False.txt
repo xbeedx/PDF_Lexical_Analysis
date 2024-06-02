@@ -1,0 +1,4 @@
+
+-TEST-
+Tests/test-files/False/test.pdf
+ERROR: syntax error

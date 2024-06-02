@@ -1,0 +1,11 @@
+
+-TEST-
+Tests/test-files/True/output.pdf
+LAST LINE: %%EOF
+REF: 189171
+Version: %PDF-1.5
+-TEST-
+Tests/test-files/True/test.pdf
+LAST LINE: %%EOF
+REF: 12345
+Version: %PDF-1.4
