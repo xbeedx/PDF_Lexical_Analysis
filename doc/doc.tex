@@ -61,7 +61,8 @@ The main program takes as its only argument the path to the file to be analyzed.
     
     \node[state, initial] (S) {S};
     \node[state] (lines) [right=of S] {lines};
-    \node[state] (REF) [right=of lines] {REF};
+    \node[state] (P-REF) [right=of lines] {P-REF};
+    \node[state] (REF) [right=of P-REF] {REF};
     \node[state] (t) [right=of REF] {t};
     
     \node[draw=none, right=of t] (dummy) {};
@@ -69,7 +70,8 @@ The main program takes as its only argument the path to the file to be analyzed.
     \path[every node/.style={font=\sffamily\small}]
     (S) edge node {V} (lines)
     (lines) edge [loop above] node {LINE,NUM,PEOF} (lines)
-    (lines) edge node {NUM} (REF)
+    (lines) edge node {STARTREF} (P-REF)
+    (P-REF) edge node {NUM} (REF)
     (REF) edge node {PEOF} (t)
     (t) edge [->] (dummy);
     \end{tikzpicture}
