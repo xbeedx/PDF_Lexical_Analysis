@@ -3,29 +3,35 @@
 Tests/test-files/True/TD3.pdf
 LAST LINE: %%EOF
 REF: 189171
+STARTREF: startxref
 Version: %PDF-1.5
 -TEST-
 Tests/test-files/True/test1.pdf
 LAST LINE: %%EOF
 REF: 258
+STARTREF: startxref
 Version: %PDF-1.7
 -TEST-
 Tests/test-files/True/test2.pdf
 LAST LINE: %%EOF
 REF: 258
+STARTREF: startxref
 Version: %PDF-1.7
 -TEST-
 Tests/test-files/True/test3.pdf
 LAST LINE: %%EOF
 REF: 258
+STARTREF: startxref
 Version: %PDF-1.7
 -TEST-
 Tests/test-files/True/test4.pdf
 LAST LINE: %%EOF
 REF: 258
+STARTREF: startxref
 Version: %PDF-1.7
 -TEST-
 Tests/test-files/True/test5.pdf
 LAST LINE: %%EOF
 REF: 258
+STARTREF: startxref
 Version: %PDF-1.7

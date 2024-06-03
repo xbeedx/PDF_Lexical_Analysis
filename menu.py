@@ -18,12 +18,24 @@ def clear_terminal():
 
 def display_menu(stdscr, selected_row):
     stdscr.clear()
-    stdscr.addstr(0, 0, "          Menu!         ",)
-    stdscr.addstr(1, 0, "~~~~~~~~~~~~~~~~~~~~~~~~~",)
     max_y, max_x = stdscr.getmaxyx()
+    
+    # ASCII Art Header
+    ascii_art = [
+    " _  _  ____  __ _  _  _ ",
+    "( \\/ )(  __)(  ( \\/ )( \\",
+    "/ \\/ \\ ) _) /    /) \\/ (",
+    "\\_)(_/(____)\\_)__)\\____/"
+]
+    
+    for i, line in enumerate(ascii_art):
+        stdscr.addstr(i, (max_x - len(line)) // 2, line, curses.color_pair(3))
+
+    stdscr.addstr(len(ascii_art), 0, "~~~~~~~~~~~~~~~~~~~~~~~~~", curses.color_pair(1))
+    
     for idx, (key, value) in enumerate(options.items(), start=1):
-        x = 2 * idx
-        y = 2
+        x = len(ascii_art) + 2 * idx
+        y = 4
         if x < max_y and y < max_x:
             if idx == selected_row:
                 stdscr.attron(curses.color_pair(2))
@@ -39,6 +51,7 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLUE)  # Header color
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # Selected item color
     curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)  # Other items color
+    curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)  # ASCII Art color
     current_row = 1
     display_menu(stdscr, current_row)
     while True:

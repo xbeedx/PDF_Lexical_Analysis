@@ -16,7 +16,7 @@ extern int yydebug;
     unsigned long num;
 }
 
-%token <str> VERSION LINE
+%token <str> VERSION LINE PEOF STARTREF
 %token <num> NUM
 
 %start S
@@ -33,10 +33,14 @@ S:
 lines:
     LINE lines
     | NUM lines
-    | NUM end_line { printf("REF: %lu\n", $1);}
+    | PEOF lines
+    | STARTREF ref { printf("STARTREF: %s\n", $1);}
     ;
 
-end_line: LINE  { printf("LAST LINE: %s\n", $1);};
+ref:
+    NUM end_line { printf("REF: %lu\n", $1);}
+
+end_line: PEOF  { printf("LAST LINE: %s\n", $1);};
 
 %%
 

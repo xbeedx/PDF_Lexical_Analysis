@@ -68,9 +68,9 @@ The main program takes as its only argument the path to the file to be analyzed.
     
     \path[every node/.style={font=\sffamily\small}]
     (S) edge node {V} (lines)
-    (lines) edge [loop above] node {LINE,NUM} (lines)
+    (lines) edge [loop above] node {LINE,NUM,PEOF} (lines)
     (lines) edge node {NUM} (REF)
-    (REF) edge node {LINE} (t)
+    (REF) edge node {PEOF} (t)
     (t) edge [->] (dummy);
     \end{tikzpicture}
     }
@@ -83,31 +83,54 @@ The main program takes as its only argument the path to the file to be analyzed.
     \begin{minipage}[t]{0.45\linewidth}
         \centering
         \[
-        S \rightarrow \text{VERSION} \; \text{lines} \; \text{LINE}
+        S \rightarrow \text{VERSION} \; \text{lines} \; \text{PEOF}
         \]
         \[
-        \text{lines} \rightarrow \text{NUM} \mid \text{LINE} \; \text{lines} \mid \text{NUM} \; \text{lines}
+        \text{lines} \rightarrow \text{STARTREF} \; \text{NUM} 
+        \]
+        \[
+        \mid \text{LINE} \; \text{lines}
+        \]
+        \[
+            \mid \text{NUM} \; \text{lines} 
+        \]
+        \[
+        \mid \text{PEOF} \; \text{lines}
         \]
         \caption{I: Grammar}
     \end{minipage}
 \hfill
-    \begin{minipage}[t]{0.45\linewidth}
-        \centering
-        \[
-        S \rightarrow \text{VERSION} \; \text{lines}
-        \]
-        \[
-        \text{lines} \rightarrow \text{LINE} \; \text{lines} \mid \text{NUM} \; \text{lines} \mid \text{LINE} \; \text{endline}
-        \]
-        \[
-        \text{endlines} \rightarrow \text{LINE}
-        \]
-        \caption{I: Right-linear grammar}
-    \end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+    \centering
+    \[
+    S \rightarrow \text{VERSION} \; \text{lines}
+    \]
+    \[
+    \text{lines} \rightarrow \text{LINE} \; \text{lines}
+    \]
+    \[
+    \mid \text{NUM} \; \text{lines}
+    \]
+    \[
+    \mid \text{PEOF} \; \text{lines}
+    \]
+    \[
+    \mid \text{STARTREF} \; \text{ref}
+    \]
+    \[
+    \text{ref} \rightarrow \text{NUM} \; \text{end\_line}
+    \]
+    \[
+    \text{end\_line} \rightarrow \text{PEOF}
+    \]
+    \caption{I: Right-linear grammar}
+\end{minipage}
 \end{figure}
 
 \[\text{VERSION} = \verb|%PDF-[0-9]+\.[0-9]+|\]
 \[\text{LINE} = \verb|[^\n]+|\]
 \[\text{NUM} = \verb|[0-9]+|\]
+\[\text{PEOF} = \verb|%%EOF|\]
+\[\text{STARTREF} = \verb|startxref|\]
 
 \end{document}
