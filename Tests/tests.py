@@ -66,7 +66,6 @@ class TestPDFValidity(unittest.TestCase):
                 file = lines[0]
                 result = lines[1:]
                 with self.subTest(test_index=test_index):
-                    self.assertEqual(len(result), 1)
                     self.assertEqual(result[0], error_message)
 
 

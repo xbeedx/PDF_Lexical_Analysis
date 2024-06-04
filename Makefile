@@ -48,7 +48,7 @@ test: all
 	python3 $(TESTS)/$(PYTHON_TEST)
 	make cleanTests
 
-testsNoLog: all
+testNoLog: all
 	@python3 $(TESTS)/$(GENERATE_TESTS) > $(LOG_DIR)/generate_tests_log.txt 2>&1
 	@echo "" >  $(TESTS)/$(TEST_T_RESULT)
 	@echo "" >  $(TESTS)/$(TEST_F_Result)
@@ -66,6 +66,7 @@ testsNoLog: all
 	@make clean > $(LOG_DIR)/make_clean_log.txt 2>&1
 	@python3 $(TESTS)/$(PYTHON_TEST)
 	@make cleanTests > $(LOG_DIR)/clean_tests_log.txt 2>&1
+	make cleanTests
 
 cleanTests:
 	rm -fv $(TESTS)/$(TEST_FILES)/*/test*.pdf
