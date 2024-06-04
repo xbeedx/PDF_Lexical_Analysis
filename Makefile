@@ -32,8 +32,8 @@ debug: $(FOLD)/$(BIN).y $(FOLD)/$(LEX).l
 
 test: all
 	python3 $(TESTS)/$(GENERATE_TESTS)
-	echo "" >  $(TESTS)/$(TEST_T_RESULT)
-	echo "" >  $(TESTS)/$(TEST_F_Result)
+	>  $(TESTS)/$(TEST_T_RESULT)
+	>  $(TESTS)/$(TEST_F_Result)
 	for file in $(TESTS)/$(TEST_FILES)/$(T_TEST)/*; do \
 		echo "-TEST-" >>  $(TESTS)/$(TEST_T_RESULT);\
 		echo $$file >>  $(TESTS)/$(TEST_T_RESULT);\
@@ -50,8 +50,8 @@ test: all
 
 testNoLog: all
 	@python3 $(TESTS)/$(GENERATE_TESTS) > $(LOG_DIR)/generate_tests_log.txt 2>&1
-	@echo "" >  $(TESTS)/$(TEST_T_RESULT)
-	@echo "" >  $(TESTS)/$(TEST_F_Result)
+	>  $(TESTS)/$(TEST_T_RESULT)
+	>  $(TESTS)/$(TEST_F_Result)
 	@mkdir -p $(LOG_DIR)
 	@for file in $(TESTS)/$(TEST_FILES)/$(T_TEST)/*; do \
 		echo "-TEST-" >>  $(TESTS)/$(TEST_T_RESULT);\
@@ -71,6 +71,10 @@ testNoLog: all
 cleanTests:
 	rm -fv $(TESTS)/$(TEST_FILES)/*/test*.pdf
 
+cleanResults:
+	>  $(TESTS)/$(TEST_T_RESULT)
+	>  $(TESTS)/$(TEST_F_Result)
+
 doc:
 	cd $(DOC_DIR) && pdflatex doc.tex
 	make cleanTex
@@ -84,4 +88,4 @@ cleanLogs:
 clean:
 	rm -fv $(FOLD)/$(BIN).bin $(FOLD)/$(BIN).tab.h $(FOLD)/$(BIN).tab.c $(FOLD)/lex.yy.c $(FOLD)/lex.yy.o $(FOLD)/$(BIN).tab.o $(FOLD)/$(BIN).vcg lex.backup $(FOLD)/$(BIN).dot $(FOLD)/$(BIN).gv $(FOLD)/$(BIN).png $(FOLD)/$(BIN).output *~
 
-cleanAll: clean cleanTests cleanTex cleanLogs
+cleanAll: clean cleanTests cleanTex cleanLogs cleanResults

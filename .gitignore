@@ -1,0 +1,8 @@
+Tests/test-files/*
+logs/*
+src/lex.yy.*
+src/parser1.bin
+src/parser1.gv
+src/parser1.png
+src/parser1.output
+src/parser1.tab.*
