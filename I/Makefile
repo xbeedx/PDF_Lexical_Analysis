@@ -12,8 +12,6 @@ GENERATE_TESTS= generate-pdfs.py
 DOC_DIR= doc
 LOG_DIR= logs
 
-.PHONY: doc
-
 all: $(FOLD)/$(BIN).y $(FOLD)/$(LEX).l
 	bison -d -g -v -t  $(FOLD)/$(BIN).y -o $(FOLD)/$(BIN).tab.c
 	dot -Tpng $(FOLD)/$(BIN).gv -o $(FOLD)/$(BIN).png
@@ -48,7 +46,7 @@ test: all
 	python3 $(TESTS)/$(PYTHON_TEST)
 	make cleanTests
 
-testNoLog: all
+testsNoLog: all
 	@python3 $(TESTS)/$(GENERATE_TESTS) > $(LOG_DIR)/generate_tests_log.txt 2>&1
 	>  $(TESTS)/$(TEST_T_RESULT)
 	>  $(TESTS)/$(TEST_F_Result)
@@ -75,17 +73,10 @@ cleanResults:
 	>  $(TESTS)/$(TEST_T_RESULT)
 	>  $(TESTS)/$(TEST_F_Result)
 
-doc:
-	cd $(DOC_DIR) && pdflatex doc.tex
-	make cleanTex
-
-cleanTex:
-	rm -fv $(DOC_DIR)/*.aux $(DOC_DIR)/*.log $(DOC_DIR)/*.fls $(DOC_DIR)/*.out $(DOC_DIR)/*.fdb_latexmk
-
 cleanLogs:
 	rm -fv $(LOG_DIR)/*.txt
 
 clean:
 	rm -fv $(FOLD)/$(BIN).bin $(FOLD)/$(BIN).tab.h $(FOLD)/$(BIN).tab.c $(FOLD)/lex.yy.c $(FOLD)/lex.yy.o $(FOLD)/$(BIN).tab.o $(FOLD)/$(BIN).vcg lex.backup $(FOLD)/$(BIN).dot $(FOLD)/$(BIN).gv $(FOLD)/$(BIN).png $(FOLD)/$(BIN).output *~
 
-cleanAll: clean cleanTests cleanTex cleanLogs cleanResults
+cleanAll: clean cleanTests cleanLogs cleanResults

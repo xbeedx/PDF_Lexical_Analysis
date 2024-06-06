@@ -1,0 +1,12 @@
+Creating valid PDF files...
+Creating valid PDF file: Tests/test-files/True/test1.pdf
+Creating valid PDF file: Tests/test-files/True/test2.pdf
+Creating valid PDF file: Tests/test-files/True/test3.pdf
+Creating valid PDF file: Tests/test-files/True/test4.pdf
+Creating valid PDF file: Tests/test-files/True/test5.pdf
+Creating invalid PDF files...
+Creating invalid PDF file: Tests/test-files/False/test1.pdf
+Creating invalid PDF file: Tests/test-files/False/test2.pdf
+Creating invalid PDF file: Tests/test-files/False/test3.pdf
+Creating invalid PDF file: Tests/test-files/False/test4.pdf
+PDF creation completed.

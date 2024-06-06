@@ -1,0 +1,20 @@
+-TEST-
+Tests/test-files/False/test1.pdf
+ERROR: syntax error
+Version: (null)
+REF: 0
+-TEST-
+Tests/test-files/False/test2.pdf
+ERROR: syntax error
+Version: (null)
+REF: 0
+-TEST-
+Tests/test-files/False/test3.pdf
+ERROR: syntax error
+Version: (null)
+REF: 0
+-TEST-
+Tests/test-files/False/test4.pdf
+ERROR: syntax error
+Version: (null)
+REF: 0

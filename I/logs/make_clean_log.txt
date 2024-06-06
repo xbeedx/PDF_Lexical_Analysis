@@ -1,0 +1,10 @@
+rm -fv src/parser1.bin src/parser1.tab.h src/parser1.tab.c src/lex.yy.c src/lex.yy.o src/parser1.tab.o src/parser1.vcg lex.backup src/parser1.dot src/parser1.gv src/parser1.png src/parser1.output *~
+src/parser1.bin
+src/parser1.tab.h
+src/parser1.tab.c
+src/lex.yy.c
+src/lex.yy.o
+src/parser1.tab.o
+src/parser1.gv
+src/parser1.png
+src/parser1.output

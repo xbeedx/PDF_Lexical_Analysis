@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
     yyparse(&version, &refAddress);
     printf("Version: %s\n", version);
     printf("REF: %lu\n", refAddress);
+
     free(version);
 
     return 0;
