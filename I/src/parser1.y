@@ -72,6 +72,14 @@ int main(int argc, char *argv[]) {
     printf("Version: %s\n", version);
     printf("REF: %lu\n", refAddress);
 
+    FILE *file = fopen("adress.txt", "w");
+    if (!file) {
+        perror("adress.txt");
+        return 1;
+    }
+    fprintf(file, "%lu", refAddress);
+    fclose(file);
+
     free(version);
 
     return 0;

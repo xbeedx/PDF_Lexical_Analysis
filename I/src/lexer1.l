@@ -38,6 +38,7 @@ STARTREF startxref
 
 [ \t\n\r]+   { /* Skip whitespace */ }
 
+
 {line} {
     yylval.str = strdup(yytext);
     return LINE;
