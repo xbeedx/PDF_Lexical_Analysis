@@ -79,7 +79,6 @@ The main program takes as its only argument the path to the file to be analyzed.
     \caption{automata I}
 \end{figure}
 
-
 \begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.45\linewidth}
@@ -134,5 +133,141 @@ The main program takes as its only argument the path to the file to be analyzed.
 \[\text{NUM} = \verb|[0-9]+|\]
 \[\text{PEOF} = \verb|%%EOF|\]
 \[\text{STARTREF} = \verb|startxref|\]
+
+\begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Command} & \textbf{Description} \\
+    \hline
+    \texttt{make} & Compile the parser and lexer. \\
+    \hline
+    \texttt{make debug} & Compile in debug mode. \\
+    \hline
+    \texttt{make test} & Generate PDF files and test them. \\
+    \hline
+    \texttt{make testsNoLog} & Similar to \texttt{make test}, but with a clean console output. \\
+    \hline
+\end{tabular}
+
+\subsection*{II}
+
+Once the reference table address is known, further analysis of the end of a PDF file becomes possible. This involves validating a reference table and a trailer, which are essential components of a PDF file structure.
+
+\subsubsection*{Reference Table Structure}
+
+A valid reference table in a PDF file consists of the following elements:
+
+\begin{enumerate}
+    \item \textbf{Header Line (\texttt{xref})}: Indicates the beginning of the reference table.
+    
+    \item \textbf{Table Entries}: Each entry in the table provides information about a PDF object. The structure of each entry includes:
+    \begin{itemize}
+        \item Object Address: A 10-digit address.
+        \item Generation Number: A 5-digit number indicating the generation of the object.
+        \item Type: Either 'n' (normal) or 'f' (free).
+    \end{itemize}
+    
+    These entries are typically organized in a format similar to:
+    \begin{verbatim}
+    0000000015 00002 n
+    0000000025 00000 n
+    \end{verbatim}
+    
+    Here, \texttt{0000000015} is the object address, \texttt{00002} is the generation number, and \texttt{n} indicates it's a normal object.
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance=1.5cm, auto]
+            \node (header) [text width=4cm, align=center] {xref};
+            \node (entry1) [below of=header, text width=4cm, align=center] {0000000015 00002 n};
+            \node (entry2) [below of=entry1, text width=4cm, align=center] {0000000025 00000 n};
+            
+            \draw[->] (header) -- (entry1);
+            \draw[->] (entry1) -- (entry2);
+        \end{tikzpicture}
+        \caption{Schematic Representation of a Reference Table}
+        \label{fig:reference_table}
+    \end{figure}
+    
+\end{enumerate}
+
+\subsubsection*{Trailer Structure}
+
+After the reference table, a valid PDF file trailer includes:
+
+\begin{enumerate}
+    \item \textbf{Trailer Keyword}: Marks the start of the trailer section.
+    
+    \item \textbf{Dictionary}: A structured set of key-value pairs enclosed between \texttt{<<} and \texttt{>>}.
+    
+    \item \textbf{Startxref}: Indicates the position of the start of the cross-reference table.
+    
+    \item \textbf{Cross-reference Table Start Address}: An integer pointing to the beginning of the reference table.
+    
+    \item \textbf{End-of-File Marker (\texttt{\%\%EOF})}: Special comment indicating the end of the PDF file.
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance=1.5cm, auto]
+            \node (trailer) [text width=4cm, align=center] {trailer};
+            \node (dict) [below of=trailer, text width=4cm, align=center] {$<<$ /Key1 Value1 /Key2 Value2 $>>$};
+            \node (startxref) [below of=dict, text width=4cm, align=center] {startxref};
+            \node (address) [below of=startxref, text width=4cm, align=center] {12345};
+            \node (eof) [below of=address, text width=4cm, align=center] {\%\%EOF};
+            
+            \draw[->] (trailer) -- (dict);
+            \draw[->] (dict) -- (startxref);
+            \draw[->] (startxref) -- (address);
+            \draw[->] (address) -- (eof);
+        \end{tikzpicture}
+        \caption{Schematic Representation of a PDF Trailer}
+        \label{fig:pdf_trailer}
+    \end{figure}
+    
+\end{enumerate}
+    
+ Data Structures: A \texttt{PDFObject} structure is defined to store information about PDF objects, including their address, object ID, and generation number. This structure is managed through functions like \texttt{createPDFObject}, \texttt{insertPDFObject}, \texttt{printPDFObjects}, and \texttt{freePDFObjects}.
+
+\begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Command} & \textbf{Description} \\
+    \hline
+    \texttt{make} & Compile the parser and lexer. \\
+    \hline
+    \texttt{make debug} & Compile in debug mode. \\
+    \hline
+    \texttt{make testSingle} & Run a single test. \\
+    \hline
+\end{tabular}
+
+\newpage
+
+\subsection*{III}
+
+The objective of this section is to develop a parser for valid PDF objects. According to the PDF specification, a valid PDF object can take several forms, each with specific characteristics that must be recognized and validated.
+
+To parse and recognize different types of PDF objects, we define a grammar and corresponding lexical rules using \texttt{parser3.y} and \texttt{lexer3.l}. These files work together to identify and classify PDF objects based on their format and content.
+
+In \texttt{lexer3.l}, lexical rules are defined using regular expressions to match various types of PDF objects:
+\begin{itemize}
+    \item \textbf{Null, Boolean, Integer, Real}: Identified using specific patterns (\texttt{null}, \texttt{boolean}, \texttt{signedInt}, \texttt{signedReal}).
+    \item \textbf{Strings}: Regular and hexadecimal strings enclosed in parentheses (\texttt{string}, \texttt{hexString}).
+    \item \textbf{Names}: Start with \texttt{/} and can include any character except whitespace and specific delimiters (\texttt{name}).
+    \item \textbf{References}: Composed of two integers followed by \texttt{R} (\texttt{ref}).
+    \item \textbf{Lists}: Enclosed in square brackets (\texttt{startList}, \texttt{endList}).
+    \item \textbf{Dictionaries}: Enclosed in double angle brackets (\texttt{startDict}, \texttt{endDict}).
+\end{itemize}
+
+The grammar in \texttt{parser3.y} specifies how these tokens are structured to form valid PDF objects:
+
+\begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Command} & \textbf{Description} \\
+    \hline
+    \texttt{make} & Compile the parser and lexer. \\
+    \hline
+    \texttt{make debug} & Compile in debug mode. \\
+    \hline
+\end{tabular}
+
 
 \end{document}
